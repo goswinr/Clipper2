@@ -1,0 +1,19 @@
+<Solution>
+  <Folder Name="/Tests/">
+    <Project Path="Tests/Tests1/Tests1.csproj" />
+  </Folder>
+  <Folder Name="/Tests/Tests2/">
+    <Project Path="Tests/Tests2/TestsZ.csproj" />
+  </Folder>
+  <Folder Name="/USINGZ/">
+    <Project Path="USINGZ/Clipper2Lib_Z.fsproj" />
+  </Folder>
+  <Folder Name="/Utils/" />
+  <Folder Name="/Utils/ClipFileIO/">
+    <Project Path="Utils/ClipFileIO/Clipper.FileIO.csproj" />
+  </Folder>
+  <Folder Name="/Utils/SVG/">
+    <Project Path="Utils/SVG/Clipper2.SVG.csproj" />
+  </Folder>
+  <Project Path="Clipper2Lib/Clipper2Lib.fsproj" />
+</Solution>
