@@ -21,8 +21,28 @@ type internal ClipperEngine private () =
             minimaList.Add(lm)
 
     static member inline internal EnsureCapacity(list: List<'T>, minCapacity: int) : unit =
+#if FABLE_COMPILER
+        ()
+#else
         if list.Capacity < minCapacity then
             list.Capacity <- minCapacity
+#endif
+
+    static member internal BinarySearchInt64(list: List<int64>, value: int64) : int =
+        let mutable low = 0
+        let mutable high = list.Count - 1
+        let mutable found = -1
+        while low <= high && found < 0 do
+            let mid = low + ((high - low) / 2)
+            let midValue = list.[mid]
+            if midValue = value then
+                found <- mid
+            elif midValue < value then
+                low <- mid + 1
+            else
+                high <- mid - 1
+
+        if found >= 0 then found else ~~~low
 
     static member internal AddPathsToVertexList(paths: Paths64, polytype: PathType, isOpen: bool,
                                                  minimaList: List<LocalMinima>, vertexList: VertexPoolList) : unit =
@@ -216,7 +236,7 @@ type ClipperBase() =
         this._succeeded <- true
 
     member private this.InsertScanline(y: int64) : unit =
-        let index = _scanlineList.BinarySearch(y)
+        let index = ClipperEngine.BinarySearchInt64(_scanlineList, y)
         if index >= 0 then ()
         else
             _scanlineList.Insert(~~~index, y)

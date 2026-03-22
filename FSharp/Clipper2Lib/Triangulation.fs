@@ -64,6 +64,14 @@ type internal Delaunay(?delaunay: bool) =
     let mutable firstActive: Edge = null
     let mutable lowermostVertex: Vertex2 = null
 
+    static member inline private EnsureCapacity(list: List<'T>, minCapacity: int) : unit =
+#if FABLE_COMPILER
+        ()
+#else
+        if list.Capacity < minCapacity then
+            list.Capacity <- minCapacity
+#endif
+
     member private this.AddPath(path: Path64) : unit =
         let mutable len = path.Count
         if len = 0 then ()
@@ -162,8 +170,8 @@ type internal Delaunay(?delaunay: bool) =
             totalVertexCount <- totalVertexCount + path.Count
         if totalVertexCount = 0 then false
         else
-            allVertices.Capacity <- allVertices.Count + totalVertexCount
-            allEdges.Capacity <- allEdges.Count + totalVertexCount
+            Delaunay.EnsureCapacity(allVertices, allVertices.Count + totalVertexCount)
+            Delaunay.EnsureCapacity(allEdges, allEdges.Count + totalVertexCount)
             for path in paths do
                 this.AddPath(path)
             allVertices.Count > 2

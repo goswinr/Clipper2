@@ -34,3 +34,6 @@ Primary planning document:
 
 General porting to F# skill:
 - `FSharpPortingSkill.md`
+
+Fable compiler constraints skill README:
+- `FableCompilerConstraints.README.md`

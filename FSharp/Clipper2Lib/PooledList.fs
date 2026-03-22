@@ -14,7 +14,7 @@ type internal PooledList<'T when 'T : not struct and 'T : null>() =
 
     static let DefaultCapacity = 4
 
-    let mutable _items: 'T[] = Array.Empty<'T>()
+    let mutable _items: 'T[] = Array.zeroCreate<'T> 0
     let mutable _size: int = 0
 
     member internal _.Items with get() = _items and set v = _items <- v

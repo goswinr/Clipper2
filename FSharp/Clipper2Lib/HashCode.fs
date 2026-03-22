@@ -7,7 +7,9 @@ namespace Clipper2Lib
 open System
 open System.ComponentModel
 open System.Runtime.CompilerServices
+#if !FABLE_COMPILER
 open System.Security.Cryptography
+#endif
 
 [<Struct; CustomEquality; NoComparison>]
 type HashCode =
@@ -15,10 +17,15 @@ type HashCode =
     static member private s_seed: uint32 = HashCode.GenerateGlobalSeed()
 
     static member private GenerateGlobalSeed() : uint32 =
+#if FABLE_COMPILER
+        let ticks = DateTime.UtcNow.Ticks
+        uint32 ticks ^^^ uint32 (ticks >>> 32)
+#else
         use rng = RandomNumberGenerator.Create()
         let data = Array.zeroCreate<byte> 4
         rng.GetBytes(data)
         BitConverter.ToUInt32(data, 0)
+#endif
 
     static member Combine<'T1, 'T2>(value1: 'T1, value2: 'T2) : int =
         let hc1 = uint32 (match box value1 with null -> 0 | v -> v.GetHashCode())

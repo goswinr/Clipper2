@@ -216,27 +216,45 @@ and [<Struct; CustomEquality; NoComparison>] PointD =
 type Path64(capacity: int) =
     inherit List<Point64>(capacity)
     new() = Path64(0)
+#if !FABLE_COMPILER
     new(path: IEnumerable<Point64>) as this =
         Path64(0)
         then this.AddRange(path)
+#endif
+    static member FromEnumerable(path: IEnumerable<Point64>) : Path64 =
+        let result = Path64()
+        result.AddRange(path)
+        result
     override this.ToString() = String.Join(", ", this)
 
 [<AllowNullLiteral>]
 type Paths64(capacity: int) =
     inherit List<Path64>(capacity)
     new() = Paths64(0)
+#if !FABLE_COMPILER
     new(paths: IEnumerable<Path64>) as this =
         Paths64(0)
         then this.AddRange(paths)
+#endif
+    static member FromEnumerable(paths: IEnumerable<Path64>) : Paths64 =
+        let result = Paths64()
+        result.AddRange(paths)
+        result
     override this.ToString() = String.Join(Environment.NewLine, this)
 
 [<AllowNullLiteral>]
 type PathD(capacity: int) =
     inherit List<PointD>(capacity)
     new() = PathD(0)
+#if !FABLE_COMPILER
     new(path: IEnumerable<PointD>) as this =
         PathD(0)
         then this.AddRange(path)
+#endif
+    static member FromEnumerable(path: IEnumerable<PointD>) : PathD =
+        let result = PathD()
+        result.AddRange(path)
+        result
     member this.ToString(precision: int) : string =
         String.Join(", ", this.ConvertAll(fun x -> x.ToString(precision)))
 
@@ -244,9 +262,15 @@ type PathD(capacity: int) =
 type PathsD(capacity: int) =
     inherit List<PathD>(capacity)
     new() = PathsD(0)
+#if !FABLE_COMPILER
     new(paths: IEnumerable<PathD>) as this =
         PathsD(0)
         then this.AddRange(paths)
+#endif
+    static member FromEnumerable(paths: IEnumerable<PathD>) : PathsD =
+        let result = PathsD()
+        result.AddRange(paths)
+        result
     member this.ToString(precision: int) : string =
         String.Join(Environment.NewLine, this.ConvertAll(fun x -> x.ToString(precision)))
 

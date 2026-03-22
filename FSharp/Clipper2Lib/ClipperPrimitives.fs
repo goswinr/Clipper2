@@ -151,12 +151,12 @@ type ClipperPrimitives private () =
             result
 
     static member ReversePath(path: Path64) : Path64 =
-        let result = Path64(path)
+        let result = Path64.FromEnumerable(path)
         result.Reverse()
         result
 
     static member ReversePath(path: PathD) : PathD =
-        let result = PathD(path)
+        let result = PathD.FromEnumerable(path)
         result.Reverse()
         result
 
